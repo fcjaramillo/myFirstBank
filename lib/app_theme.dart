@@ -37,7 +37,12 @@ extension GFilesAttributes on TextTheme{
   TextStyle get bodyTextSmall => bodyText1.copyWith(fontSize: 12);
   TextStyle get titleWhite => bodyText1.copyWith(
       color: MFBColors.white,
-      fontSize: 45,
+      fontSize: 24,
+      fontWeight: FontWeight.bold
+  );
+  TextStyle get subTitleWhite => bodyText1.copyWith(
+      color: MFBColors.white,
+      fontSize: 16,
       fontWeight: FontWeight.bold
   );
   TextStyle get titleBlack => bodyText1.copyWith(

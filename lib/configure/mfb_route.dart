@@ -1,5 +1,7 @@
 
 import 'package:flutter/material.dart';
+import 'package:my_first_bank/api/model/account_model.dart';
+import 'package:my_first_bank/pages/account_detail/account_detail_page.dart';
 import 'package:my_first_bank/pages/home/home_page.dart';
 import 'package:my_first_bank/pages/login/login_page.dart';
 
@@ -26,13 +28,19 @@ class MFBRoute {
 
   goHome(){
     return navigatorKey.currentState.pushReplacement(
-        MaterialPageRoute(builder: (_)=> HomePage())
+        MaterialPageRoute(builder: (_) => HomePage())
     );
   }
 
   goLogin(){
     return navigatorKey.currentState.pushReplacement(
-        MaterialPageRoute(builder: (_)=> LoginPage())
+        MaterialPageRoute(builder: (_) => LoginPage())
+    );
+  }
+
+  goAccountDetail(AccountModel account){
+    return navigatorKey.currentState.push(
+      MaterialPageRoute(builder: (_) => AccountDetailPage(account))
     );
   }
 
