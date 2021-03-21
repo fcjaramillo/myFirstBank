@@ -26,6 +26,9 @@ abstract class AccountModel implements Built<AccountModel, AccountModelBuilder> 
   @nullable
   int get idTitular;
 
+  @nullable
+  String get bank;
+
   AccountModel._();
   factory AccountModel([void Function(AccountModelBuilder) updates]) = _$AccountModel;
 

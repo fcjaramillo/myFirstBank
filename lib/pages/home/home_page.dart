@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:my_first_bank/commons/mfb_colors.dart';
 import 'package:my_first_bank/configure/get_it_locator.dart';
 import 'package:my_first_bank/configure/mfb_route.dart';
+import 'package:my_first_bank/data/database.dart';
 import 'package:my_first_bank/pages/home/home_view_model.dart';
 import 'package:my_first_bank/widgets/account_card.dart';
+import 'package:my_first_bank/widgets/drawer.dart';
 import 'package:provider/provider.dart';
 
 import 'home_effect.dart';
@@ -16,6 +18,7 @@ class HomePage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => HomeViewModel(
         locator<MFBRoute>(),
+        locator<Database>(),
       ),
       builder: (context, _){
         return HomeWidget();
@@ -37,12 +40,17 @@ class HomeWidget extends StatelessWidget {
         ),
       ),
       drawerScrimColor: MFBColors.blueOpacity,
+      drawer: AppDrawer(
+        userName: 'Fabián Jaramillo',
+        onTap: (String type) => viewModel.onTapDrawer(type),
+        onTapCloseSession: viewModel.onTapCloseSession,
+      ),
       body: _homeBody(),
       floatingActionButton: FloatingActionButton(
         child: Icon(
           Icons.add,
         ),
-        onPressed: (){},
+        onPressed: viewModel.onTapFloating,
       ),
     );
   }

@@ -1,9 +1,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:my_first_bank/api/model/account_model.dart';
+import 'package:my_first_bank/configure/get_it_locator.dart';
+import 'package:my_first_bank/data/database.dart';
+import 'package:my_first_bank/data/model/user_db.dart';
 import 'package:my_first_bank/pages/account_detail/account_detail_page.dart';
 import 'package:my_first_bank/pages/home/home_page.dart';
 import 'package:my_first_bank/pages/login/login_page.dart';
+import 'package:my_first_bank/pages/new_account/new_account_page.dart';
 
 class MFBRoute {
 
@@ -15,11 +19,22 @@ class MFBRoute {
 
   MFBRoute._internal();
 
+  UserDb user;
+
+  init() async {
+    user = await locator<Database>().getLoginUser();
+  }
 
   final navigatorKey = GlobalKey<NavigatorState>();
 
   Route<dynamic> generateRoute(RouteSettings settings) {
-    return MaterialPageRoute(builder: (_) => LoginPage());
+    print(user.name);
+    if(user.name == null){
+      return MaterialPageRoute(builder: (_) => LoginPage());
+    } else {
+      return MaterialPageRoute(builder: (_) => HomePage());
+    }
+
   }
 
   void pop<T>(T result){
@@ -41,6 +56,12 @@ class MFBRoute {
   goAccountDetail(AccountModel account){
     return navigatorKey.currentState.push(
       MaterialPageRoute(builder: (_) => AccountDetailPage(account))
+    );
+  }
+
+  goNewAccount(){
+    return navigatorKey.currentState.push(
+        MaterialPageRoute(builder: (_) => NewAccountPage())
     );
   }
 

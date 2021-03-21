@@ -94,6 +94,15 @@ class AccountCard extends StatelessWidget {
               value: account.number.toString(),
               color: MFBColors.blue,
             ),
+            SizedBox(
+              height: 4.0,
+            ),
+            _item(
+              context: context,
+              icon: Icons.home,
+              value: account.bank,
+              color: MFBColors.blue,
+            ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisAlignment: MainAxisAlignment.end,

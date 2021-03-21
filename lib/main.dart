@@ -6,6 +6,7 @@ import 'package:my_first_bank/configure/mfb_route.dart';
 void main() async {
   setUpLocator();
   await locator.allReady();
+  await locator<MFBRoute>().init();
 
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());

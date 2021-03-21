@@ -20,9 +20,10 @@ class AppDrawer extends StatelessWidget {
           children: <Widget>[
             _createHeader(context),
             //Divider(),
-            _createDrawerItem(context: context, icon: Icons.devices, color: MFBColors.grayIcon, text: 'menu', onTap: () => {onTap('owns')}),
-            _createDrawerItem(context: context, icon: Icons.devices_other, color: MFBColors.grayIcon, text: 'menu', onTap: () => {onTap('shared')}),
-            _createDrawerItem(context: context, icon: Icons.mail, color: MFBColors.grayIcon, text: 'menu', onTap: () => {onTap('invitacions')}),
+            _createDrawerItem(context: context, icon: Icons.home, color: MFBColors.grayIcon, text: 'Cuentas Bancarias', onTap: () => {onTap('home')}),
+            _createDrawerItem(context: context, icon: Icons.send_to_mobile, color: MFBColors.grayIcon, text: 'Enviar Dinero', onTap: () => {onTap('send')}),
+            _createDrawerItem(context: context, icon: Icons.qr_code, color: MFBColors.grayIcon, text: 'Crear Codigo Qr', onTap: () => {onTap('read')}),
+            _createDrawerItem(context: context, icon: Icons.qr_code_scanner, color: MFBColors.grayIcon, text: 'Scan Codigo Qr', onTap: () => {onTap('scanner')}),
             Divider(),
             _createDrawerItem(context: context, icon: Icons.exit_to_app, color: MFBColors.grayIcon, text: 'Cerrar sesión', onTap: onTapCloseSession),
           ],
@@ -43,10 +44,10 @@ class AppDrawer extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Center(
-              /*child: Image.asset(
-                IotAssets.logo,
-                width: MediaQuery.of(context).size.width * 0.4,
-              ),*/
+              child: Text(
+                'Mi Primer Banco',
+                style: textTheme.titleBlue,
+              ),
             ),
             ListTile(
               contentPadding: EdgeInsets.only(left: 6, right: 10),
@@ -58,7 +59,7 @@ class AppDrawer extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               ),
               subtitle: Text(
-                'Taxis',
+                'App bancaria',
                 style: TextStyle(
                     fontSize: 14
                 ),
@@ -68,13 +69,13 @@ class AppDrawer extends StatelessWidget {
                 color: MFBColors.grayLight,
                 size: 55,
               ),
-              trailing: IconButton(
+              /*trailing: IconButton(
                 icon: Icon(
                   Icons.edit,
                   color: MFBColors.black,
                 ),
                 onPressed: onTapEdit,
-              ),
+              ),*/
             ),
           ],
         ));

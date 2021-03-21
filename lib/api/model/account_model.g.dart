@@ -58,6 +58,12 @@ class _$AccountModelSerializer implements StructuredSerializer<AccountModel> {
         ..add(serializers.serialize(object.idTitular,
             specifiedType: const FullType(int)));
     }
+    if (object.bank != null) {
+      result
+        ..add('bank')
+        ..add(serializers.serialize(object.bank,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
@@ -100,6 +106,10 @@ class _$AccountModelSerializer implements StructuredSerializer<AccountModel> {
           result.idTitular = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
           break;
+        case 'bank':
+          result.bank = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
       }
     }
 
@@ -122,6 +132,8 @@ class _$AccountModel extends AccountModel {
   final String alias;
   @override
   final int idTitular;
+  @override
+  final String bank;
 
   factory _$AccountModel([void Function(AccountModelBuilder) updates]) =>
       (new AccountModelBuilder()..update(updates)).build();
@@ -133,7 +145,8 @@ class _$AccountModel extends AccountModel {
       this.number,
       this.balance,
       this.alias,
-      this.idTitular})
+      this.idTitular,
+      this.bank})
       : super._() {
     if (id == null) {
       throw new BuiltValueNullFieldError('AccountModel', 'id');
@@ -157,7 +170,8 @@ class _$AccountModel extends AccountModel {
         number == other.number &&
         balance == other.balance &&
         alias == other.alias &&
-        idTitular == other.idTitular;
+        idTitular == other.idTitular &&
+        bank == other.bank;
   }
 
   @override
@@ -166,12 +180,14 @@ class _$AccountModel extends AccountModel {
         $jc(
             $jc(
                 $jc(
-                    $jc($jc($jc(0, id.hashCode), idUser.hashCode),
-                        type.hashCode),
-                    number.hashCode),
-                balance.hashCode),
-            alias.hashCode),
-        idTitular.hashCode));
+                    $jc(
+                        $jc($jc($jc(0, id.hashCode), idUser.hashCode),
+                            type.hashCode),
+                        number.hashCode),
+                    balance.hashCode),
+                alias.hashCode),
+            idTitular.hashCode),
+        bank.hashCode));
   }
 
   @override
@@ -183,7 +199,8 @@ class _$AccountModel extends AccountModel {
           ..add('number', number)
           ..add('balance', balance)
           ..add('alias', alias)
-          ..add('idTitular', idTitular))
+          ..add('idTitular', idTitular)
+          ..add('bank', bank))
         .toString();
   }
 }
@@ -220,6 +237,10 @@ class AccountModelBuilder
   int get idTitular => _$this._idTitular;
   set idTitular(int idTitular) => _$this._idTitular = idTitular;
 
+  String _bank;
+  String get bank => _$this._bank;
+  set bank(String bank) => _$this._bank = bank;
+
   AccountModelBuilder();
 
   AccountModelBuilder get _$this {
@@ -231,6 +252,7 @@ class AccountModelBuilder
       _balance = _$v.balance;
       _alias = _$v.alias;
       _idTitular = _$v.idTitular;
+      _bank = _$v.bank;
       _$v = null;
     }
     return this;
@@ -259,7 +281,8 @@ class AccountModelBuilder
             number: number,
             balance: balance,
             alias: alias,
-            idTitular: idTitular);
+            idTitular: idTitular,
+            bank: bank);
     replace(_$result);
     return _$result;
   }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:my_first_bank/commons/mfb_colors.dart';
 import 'package:my_first_bank/configure/get_it_locator.dart';
 import 'package:my_first_bank/configure/mfb_route.dart';
+import 'package:my_first_bank/data/database.dart';
 import 'package:my_first_bank/pages/login/login_effect.dart';
 import 'package:my_first_bank/pages/login/login_view_model.dart';
 import 'package:my_first_bank/app_theme.dart';
@@ -17,6 +18,7 @@ class LoginPage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => LoginViewModel(
         locator<MFBRoute>(),
+        locator<Database>(),
       ),
       builder: (context, _){
         return LoginWidget();

@@ -4,19 +4,21 @@
       "id": 0,
       "idUser": 0,
       "type": "Cuenta de Ahorros",
-      "number": 1921863121,
+      "number": 19218631211,
       "balance": 120000,
       "alias": "Ahorros",
-      "idTitular": 123456789012
+      "idTitular": 123456789012,
+      "bank": "mi primer banco"
     },
     {
       "id": 1,
       "idUser": 0,
       "type": "Cuenta Corriente",
-      "number": 1921863121,
+      "number": 19218631212,
       "balance": 120000,
       "alias": "Corriente",
-      "idTitular": 123456789012
+      "idTitular": 123456789012,
+      "bank": "mi primer banco"
     }
   ]
 }

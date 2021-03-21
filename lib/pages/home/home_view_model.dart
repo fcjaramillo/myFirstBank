@@ -5,7 +5,10 @@ import 'package:connectivity/connectivity.dart';
 import 'package:flutter/services.dart';
 import 'package:my_first_bank/api/model/account_model.dart';
 import 'package:my_first_bank/api/model/accounts_model.dart';
+import 'package:my_first_bank/configure/get_it_locator.dart';
 import 'package:my_first_bank/configure/mfb_route.dart';
+import 'package:my_first_bank/data/database.dart';
+import 'package:my_first_bank/data/model/account_db.dart';
 import 'package:my_first_bank/pages/home/home_effect.dart';
 import 'package:my_first_bank/pages/home/home_status.dart';
 import 'package:my_first_bank/viewModel.dart';
@@ -14,8 +17,9 @@ import 'package:my_first_bank/viewModel.dart';
 class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect>{
 
   final MFBRoute _route;
+  final Database _database;
 
-  HomeViewModel(this._route){
+  HomeViewModel(this._route, this._database){
     status = HomeStatus(
       isLoading: true,
       titleBar: 'Cuentas Bancarias',
@@ -29,29 +33,68 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect>{
     final connectivityResult = await (Connectivity().checkConnectivity());
 
     if (connectivityResult == ConnectivityResult.mobile || connectivityResult == ConnectivityResult.wifi) {
-      print('a');
-
-      final String response = await rootBundle.loadString('assets/jsons/accounts.json');
-      final data = await json.decode(response);
 
 
-      final AccountsModel accountsModel = AccountsModel.fromJson(data);
-      //print(a);
+      List<AccountDb> accounts = await _database.getAccounts();
+      print(accounts);
+      if(accounts.length > 0) {
 
-      status = status.copyWith(accounts: accountsModel.accounts, isLoading: false);
-      //}
+        BuiltList<AccountModel> listAccountsModel = BuiltList<AccountModel>();
 
-      //List<AccountModel> response = await locator<ApiInteractor>().getAllEarthquake();
-      //status = status.copyWith(earthquakes: response, isLoading: false);
+        accounts.forEach((element) {
+          AccountModel accountModel = AccountModel( (ac) => ac
+            ..id = element.id
+            ..idUser = element.idUser
+            ..type = element.type
+            ..number = element.number
+            ..balance = element.balance
+            ..alias = element.alias
+            ..idTitular = element.idTitular
+            ..bank = element.bank
+          );
+          print(accountModel);
+          listAccountsModel = listAccountsModel.rebuild( (acs) => acs
+            ..add(accountModel)
+          );
+        });
+        print(listAccountsModel);
+
+        status = status.copyWith(accounts: listAccountsModel, isLoading: false);
+      } else {
+        final String response = await rootBundle.loadString('assets/jsons/accounts.json');
+        final data = await json.decode(response);
+
+        final AccountsModel accountsModel = AccountsModel.fromJson(data);
+
+        accountsModel.accounts.asMap().forEach((n, account) {
+          _database.setAccount(AccountDb(
+            account.id,
+            account.idUser,
+            account.type,
+            account.number,
+            account.balance,
+            account.alias,
+            account.idTitular,
+            account.bank
+          ), n);
+        });
+
+        status = status.copyWith(accounts: accountsModel.accounts, isLoading: false);
+      }
     } else {
       UnimplementedError();
     }
   }
 
   void onTapCard(AccountModel account) async {
-    print(account);
-    //await _route.goEarthquakeDetail(earthquake, sim, heightModels);
     await _route.goAccountDetail(account);
+  }
+
+  void onTapFloating() async {
+    bool create = await _route.goNewAccount();
+    if(create){
+      onInit();
+    }
   }
 
   void onTapDrawer(String page){
@@ -60,6 +103,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect>{
   }
 
   void onTapCloseSession() async {
+    _database.deleteUser();
     await _route.goLogin();
   }
 
