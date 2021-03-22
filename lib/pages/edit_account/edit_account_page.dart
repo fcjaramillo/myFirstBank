@@ -1,38 +1,46 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:my_first_bank/api/model/account_model.dart';
 import 'package:my_first_bank/commons/mfb_colors.dart';
 import 'package:my_first_bank/configure/get_it_locator.dart';
 import 'package:my_first_bank/configure/mfb_route.dart';
 import 'package:my_first_bank/app_theme.dart';
 import 'package:my_first_bank/data/database.dart';
-import 'package:my_first_bank/pages/new_account/new_account_effect.dart';
-import 'package:my_first_bank/pages/new_account/new_account_view_model.dart';
+import 'package:my_first_bank/pages/edit_account/edit_account_effect.dart';
+import 'package:my_first_bank/pages/edit_account/edit_account_view_model.dart';
 
 import 'package:provider/provider.dart';
 
-class NewAccountPage extends StatelessWidget {
+class EditAccountPage extends StatelessWidget {
+
+  final AccountModel _account;
+  final int _index;
+
+  EditAccountPage(this._account, this._index);
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => NewAccountViewModel(
+      create: (_) => EditAccountViewModel(
         locator<MFBRoute>(),
         locator<Database>(),
+        _account,
+        _index,
       ),
       builder: (context, _){
-        return NewAccountWidget();
+        return EditAccountWidget();
       },
     );
   }
 }
 
-class NewAccountWidget extends StatefulWidget {
+class EditAccountWidget extends StatefulWidget {
   @override
-  _NewAccountWidgetState createState() => _NewAccountWidgetState();
+  _EditAccountWidgetState createState() => _EditAccountWidgetState();
 }
 
-class _NewAccountWidgetState extends State<NewAccountWidget> {
+class _EditAccountWidgetState extends State<EditAccountWidget> {
 
   final keyFormAddAccount = GlobalKey<FormState>();
   final numberCtrl = TextEditingController();
@@ -41,23 +49,24 @@ class _NewAccountWidgetState extends State<NewAccountWidget> {
   final idTitularCtrl = TextEditingController();
   final bankCtrl = TextEditingController();
 
-  StreamSubscription<NewAccountEffect> _effectSubscription;
+  StreamSubscription<EditAccountEffect> _effectSubscription;
 
   @override
   void initState() {
 
-    final viewModel = context.read<NewAccountViewModel>();
+    final viewModel = context.read<EditAccountViewModel>();
+
+    numberCtrl.text = viewModel.status.account.number.toString();
+    balanceCtrl.text = viewModel.status.account.balance.toString();
+    aliasCtrl.text = viewModel.status.account.alias;
+    idTitularCtrl.text = viewModel.status.account.idTitular.toString();
+    bankCtrl.text = viewModel.status.account.bank;
 
     _effectSubscription = viewModel.effects.listen((event) {
-      if(event is NewAccountFormValidate){
+      if(event is EditAccountFormValidate){
         if(keyFormAddAccount.currentState.validate()){
-          viewModel.onTapNewAccount(
-            viewModel.status.strType,
-            numberCtrl.text,
-            balanceCtrl.text,
+          viewModel.onTapEditAccount(
             aliasCtrl.text,
-            idTitularCtrl.text,
-            bankCtrl.text,
           );
         }
       }
@@ -80,7 +89,7 @@ class _NewAccountWidgetState extends State<NewAccountWidget> {
   @override
   Widget build(BuildContext context) {
 
-    final viewModel = context.watch<NewAccountViewModel>();
+    final viewModel = context.watch<EditAccountViewModel>();
 
     final textTheme = Theme.of(context).textTheme;
 
@@ -104,31 +113,13 @@ class _NewAccountWidgetState extends State<NewAccountWidget> {
                     SizedBox(
                       height: 24,
                     ),
-                    DropdownButtonFormField(
-                      items: [
-                        DropdownMenuItem(
-                          child: Text('Cuenta de Ahorros'),
-                          value: 'Cuenta de Ahorros',
-                        ),
-                        DropdownMenuItem(
-                          child: Text('Cuenta Corriente'),
-                          value: 'Cuenta Corriente',
-                        )
-                      ],
-                      decoration: InputDecoration(
-                        labelText: 'Tipo de Cuenta ',
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(color: MFBColors.gray)
-                        )
-                      ),
-                      icon: Icon(Icons.keyboard_arrow_down),
-                      validator: viewModel.validateType,
-                      onChanged: viewModel.onChangeType
-                    ),
+                    //todo
                     SizedBox(
                       height: 12,
                     ),
                     TextFormField(
+                      focusNode: FocusNode(),
+                      enableInteractiveSelection: false,
                       decoration: InputDecoration(
                         labelText: 'Numero de Cuenta',
                         border: OutlineInputBorder(
@@ -151,7 +142,7 @@ class _NewAccountWidgetState extends State<NewAccountWidget> {
                         ),
                       ),
                       keyboardType: TextInputType.number,
-                      validator: viewModel.validateNumber,
+                      readOnly: true,
                       controller: numberCtrl,
                     ),
                     SizedBox(
@@ -180,7 +171,7 @@ class _NewAccountWidgetState extends State<NewAccountWidget> {
                         ),
                       ),
                       keyboardType: TextInputType.number,
-                      validator: viewModel.validateBalance,
+                      readOnly: true,
                       controller: balanceCtrl,
                     ),
                     SizedBox(
@@ -236,7 +227,7 @@ class _NewAccountWidgetState extends State<NewAccountWidget> {
                         ),
                       ),
                       keyboardType: TextInputType.number,
-                      validator: viewModel.validateIdTitular,
+                      readOnly: true,
                       controller: idTitularCtrl,
                     ),
                     SizedBox(
@@ -264,13 +255,13 @@ class _NewAccountWidgetState extends State<NewAccountWidget> {
                             )
                         ),
                       ),
-                      validator: viewModel.validateBank,
+                      readOnly: true,
                       controller: bankCtrl,
                     ),
                     RaisedButton(
                       padding: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
                       child: Text(
-                        'Agregar Cuenta',
+                        'Editar Cuenta',
                         style: textTheme.textButtomWhite.copyWith(
                           fontWeight: FontWeight.w400,
                         ),

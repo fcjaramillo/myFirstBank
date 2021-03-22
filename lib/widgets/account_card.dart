@@ -7,8 +7,9 @@ class AccountCard extends StatelessWidget {
 
   final AccountModel account;
   final VoidCallback onTap;
+  final VoidCallback onTapSettings;
 
-  AccountCard({this.account, this.onTap});
+  AccountCard({this.account, this.onTap, this.onTapSettings});
 
   @override
   Widget build(BuildContext context) {
@@ -107,6 +108,29 @@ class AccountCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    IconButton(
+                      icon: Icon(
+                        Icons.settings,
+                        color: MFBColors.grayLight,
+                      ),
+                      onPressed: onTapSettings,
+                    ),
+                    Text(
+                      'Editar',
+                      style: TextStyle(
+                        color: MFBColors.grayLight,
+                      ),
+                    ),
+                  ],
+                ),
+                Expanded(
+                  flex: 2,
+                  child: SizedBox.shrink(),
+                ),
                 Text(
                   'Ver más',
                   style: textTheme.subTitleWhite.copyWith(
@@ -152,7 +176,7 @@ class AccountCard extends StatelessWidget {
       alignment: FractionalOffset.centerLeft,
       child: Image.network(
         'https://www.monederosmart.com/wp-content/uploads/2020/04/Popov-53994032_m.jpg',
-        height: 150.0,
+        height: 200.0,
         width: 92.0,
       ),
     );

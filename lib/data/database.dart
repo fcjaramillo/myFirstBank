@@ -55,6 +55,10 @@ class Database {
     await box.add(account);
   }
 
+  Future setEditAccount(AccountDb account, int index) async {
+    var box = await Hive.openBox('account');
+    await box.putAt(index, account);
+  }
 
   Future<List<AccountDb>> getAccounts() async {
     var box = await Hive.openBox('account');
@@ -69,24 +73,4 @@ class Database {
   }
   //FIN ACCOUNT
 
-  /*
-  //PUSH NOTIFICATION TOKEN
-
-  Future setTokenPushNotification(TokenPushNotificationDB token) async {
-    var box = await Hive.openBox('pushNotification');
-    if (box.length > 0){
-      await box.putAt(0, token);
-    } else {
-      await box.add(token);
-    }
-  }
-
-  Future<TokenPushNotificationDB> getTokenPush() async {
-    var box = await Hive.openBox('pushNotification');
-    TokenPushNotificationDB token = TokenPushNotificationDB('');
-    for (int i = 0; i < box.length; i++) {
-      token = box.getAt(i);
-    }
-    return token;
-  }*/
 }

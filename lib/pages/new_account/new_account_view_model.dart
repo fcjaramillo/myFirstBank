@@ -23,8 +23,8 @@ class NewAccountViewModel extends EffectsViewModel<NewAccountStatus, NewAccountE
   }
 
   void onTapNewAccount(String type, String number, String balance, String alias, String idTitular, String bank) async {
-    /*await _database.setOnlyAccount(AccountDb(0,1,type,int.parse(number),double.parse(balance),alias,int.parse(idTitular),bank));
-    _route.pop(true);*/
+    await _database.setOnlyAccount(AccountDb(0,1,type,int.parse(number),double.parse(balance),alias,int.parse(idTitular),bank));
+    _route.pop(true);
   }
 
   void onChangeType(String value){

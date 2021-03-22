@@ -105,6 +105,9 @@ class __homeBodyState extends State<_homeBody> {
               onTap: () {
                 viewModel.onTapCard(viewModel.status.accounts[index]);
               },
+              onTapSettings: () {
+                viewModel.onTapSettings(viewModel.status.accounts[index], index);
+              },
             );
           },
         ),

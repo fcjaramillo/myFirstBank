@@ -36,7 +36,6 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect>{
 
 
       List<AccountDb> accounts = await _database.getAccounts();
-      print(accounts);
       if(accounts.length > 0) {
 
         BuiltList<AccountModel> listAccountsModel = BuiltList<AccountModel>();
@@ -52,12 +51,10 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect>{
             ..idTitular = element.idTitular
             ..bank = element.bank
           );
-          print(accountModel);
           listAccountsModel = listAccountsModel.rebuild( (acs) => acs
             ..add(accountModel)
           );
         });
-        print(listAccountsModel);
 
         status = status.copyWith(accounts: listAccountsModel, isLoading: false);
       } else {
@@ -99,12 +96,19 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect>{
 
   void onTapDrawer(String page){
     //TODO
-    print(page);
+    //print(page);
   }
 
   void onTapCloseSession() async {
     _database.deleteUser();
     await _route.goLogin();
+  }
+
+  void onTapSettings(AccountModel account, int index) async {
+    bool edit = await _route.goEditAccount(account, index);
+    if(edit){
+      onInit();
+    }
   }
 
 }
