@@ -7,6 +7,7 @@ import 'package:my_first_bank/data/database.dart';
 import 'package:my_first_bank/pages/home/home_view_model.dart';
 import 'package:my_first_bank/widgets/account_card.dart';
 import 'package:my_first_bank/widgets/drawer.dart';
+import 'package:my_first_bank/extension/snackbar_extension.dart';
 import 'package:provider/provider.dart';
 
 import 'home_effect.dart';
@@ -73,6 +74,10 @@ class __homeBodyState extends State<_homeBody> {
     _effectSubscription = viewModel.effects.listen((event) {
       if(event is HomeSnackBarEffect){
         //GlobalSnackbar.buildErrorSnackbar(context, event.message, event.duration);
+        context.showSnackbar(
+          message: event.message,
+          duration: event.duration
+        );
       }
     });
 

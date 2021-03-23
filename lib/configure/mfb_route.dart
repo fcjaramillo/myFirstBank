@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:my_first_bank/api/model/account_model.dart';
 import 'package:my_first_bank/configure/get_it_locator.dart';
@@ -6,9 +5,11 @@ import 'package:my_first_bank/data/database.dart';
 import 'package:my_first_bank/data/model/user_db.dart';
 import 'package:my_first_bank/pages/account_detail/account_detail_page.dart';
 import 'package:my_first_bank/pages/edit_account/edit_account_page.dart';
+import 'package:my_first_bank/pages/generator_qr/generator_qr_page.dart';
 import 'package:my_first_bank/pages/home/home_page.dart';
 import 'package:my_first_bank/pages/login/login_page.dart';
 import 'package:my_first_bank/pages/new_account/new_account_page.dart';
+import 'package:my_first_bank/pages/scan_qr/scan_qr_page.dart';
 
 class MFBRoute {
 
@@ -68,6 +69,18 @@ class MFBRoute {
   goEditAccount(AccountModel account, int index){
     return navigatorKey.currentState.push(
         MaterialPageRoute(builder: (_) => EditAccountPage(account, index))
+    );
+  }
+
+  goGenerateQr(){
+    return navigatorKey.currentState.push(
+        MaterialPageRoute(builder: (_) => GeneratorQrPage())
+    );
+  }
+
+  goScanQr(){
+    return navigatorKey.currentState.push(
+        MaterialPageRoute(builder: (_) => ScanQrPage())
     );
   }
 

@@ -108,34 +108,26 @@ class AccountCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    IconButton(
-                      icon: Icon(
-                        Icons.settings,
-                        color: MFBColors.grayLight,
-                      ),
-                      onPressed: onTapSettings,
+                TextButton(
+                  child: Text(
+                    'Editar',
+                    style: textTheme.subTitleWhite.copyWith(
+                        fontWeight: FontWeight.normal
                     ),
-                    Text(
-                      'Editar',
-                      style: TextStyle(
-                        color: MFBColors.grayLight,
-                      ),
-                    ),
-                  ],
-                ),
-                Expanded(
-                  flex: 2,
-                  child: SizedBox.shrink(),
-                ),
-                Text(
-                  'Ver más',
-                  style: textTheme.subTitleWhite.copyWith(
-                    fontWeight: FontWeight.normal
                   ),
+                  onPressed: onTapSettings,
+                ),
+                SizedBox(
+                  width: 24.0,
+                ),
+                TextButton(
+                  child: Text(
+                    'Ver Más',
+                    style: textTheme.subTitleWhite.copyWith(
+                        fontWeight: FontWeight.normal
+                    ),
+                  ),
+                  onPressed: onTap,
                 ),
               ],
             )
@@ -176,8 +168,8 @@ class AccountCard extends StatelessWidget {
       alignment: FractionalOffset.centerLeft,
       child: Image.network(
         'https://www.monederosmart.com/wp-content/uploads/2020/04/Popov-53994032_m.jpg',
-        height: 200.0,
-        width: 92.0,
+        height: 210.0,
+        width: 110.0,
       ),
     );
   }

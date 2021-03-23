@@ -95,8 +95,19 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect>{
   }
 
   void onTapDrawer(String page){
-    //TODO
-    //print(page);
+    _route.pop(null);
+    if(page == 'home'){
+
+    }
+    else if(page == 'send'){
+      addEffect(HomeSnackBarEffect('Esta funcionalidad se esta en desarrollo', 4));
+    }
+    else if(page == 'generate'){
+      _route.goGenerateQr();
+    }
+    else if(page == 'scan'){
+      _route.goScanQr();
+    }
   }
 
   void onTapCloseSession() async {
